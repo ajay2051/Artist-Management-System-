@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>This is artists</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Date of Birth</th>
+    <th>Gender</th>
+    <th>Address</th>
+    <th>First Release Year</th>
+    <th>Number of Albums Released</th>
+
+  </tr>
+    {% for artist in artists %}
+  <tr>
+    <td>{{artist.name}}</td>
+    <td>{{artist.date_of_birth}}</td>
+    <td>{{artist.gender.value}}</td>
+    <td>{{artist.phone_number}}</td>
+    <td>{{artist.address}}</td>
+    <td>{{artist.first_release_year}}</td>
+    <td>{{total_albums}}</td>
+    <td><a href="{% url 'update-artist' artist.id %}">Update</a></td>
+    <td><a href="{% url 'delete-artist' artist.id %}">Delete</a></td>
+  </tr>
+    {% endfor %}
+
+</table>
+<a href="{% url 'create-artist' %}">Create Artists</a>
+
+{% endblock %}

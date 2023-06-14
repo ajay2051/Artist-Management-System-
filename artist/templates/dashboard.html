@@ -1,4 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>This is dashboard</h1>
+<a href="{% url 'logout' %}">Logout</a>
+<h1>Hello {{request.user.first_name}}</h1>
+<h3>This is dashboard</h3>
+<table>
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Phone Number</th>
+    <th>Date of Birth</th>
+    <th>Gender</th>
+    <th>Address</th>
+  </tr>
+    {% for user in users %}
+  <tr>
+    <td>{{user.first_name}}</td>
+    <td>{{user.last_name}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.phone_number}}</td>
+    <td>{{user.date_of_birth}}</td>
+    <td>{{user.gender.value}}</td>
+    <td>{{user.address}}</td>
+  </tr>
+    {% endfor %}
+
+</table>
+
+<a href="{% url 'artists' %}">Go To Artists</a>
+
 {% endblock %}

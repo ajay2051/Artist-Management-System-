@@ -4,10 +4,20 @@
 <form action="" method="POST">
     {% csrf_token %}
     <div>
+        <label>First Name</label>
+        {{form.first_name}}
+    </div>
+
+    <br>
+    <div>
+        <label>Last Name</label>
+        {{form.last_name}}
+    </div>
+    <br>
+    <div>
         <label>Username</label>
         {{form.username}}
     </div>
-
     <br>
     <div>
         <label>Email</label>
@@ -19,11 +29,31 @@
         {{form.password1}}
     </div>
     <br>
+
     <div>
-        <label>Confirm Password</label>
+        <label>Password</label>
         {{form.password2}}
     </div>
     <br>
+    <div>
+        <label>Phone Number</label>
+        {{form.phone_number}}
+    </div>
+    <br>
+    <div>
+        <label>DOB</label>
+        {{form.date_of_birth}}
+    </div>
+    <br>
+    <div>
+        <label>Gender</label>
+        {{form.gender}}
+    </div>
+    <br>
+    <div>
+        <label>Address</label>
+        {{form.address}}
+    </div>
     <input type="submit" value="Register">
 
 </form>

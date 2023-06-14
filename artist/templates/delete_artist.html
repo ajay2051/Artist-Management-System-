@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    Are you sure want to delete "{{artist}}" ?
+    <form action="{% url 'delete-artist' artist.id %}" method="POST">
+        {% csrf_token %}
+        <a href="{% url 'artists' %}">Cancel</a>
+        <!-- <a href="{{ request.META.HTTP_REFERER }}">Go Back</a> -->
+
+        <button type="submit">Confirm</button>
+    </form>
+</div>
+{% endblock %}

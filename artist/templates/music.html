@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Album</th>
+    <th>Genre</th>
+
+
+  </tr>
+    {% for music in musics %}
+  <tr>
+    <td>{{music.title}}</td>
+    <td>{{music.album}}</td>
+    <td>{{music.genre.value}}</td>
+
+    <td><a href="{% url 'update-music' music.id %}">Update</a></td>
+    <td><a href="{% url 'delete-music' music.id %}">Delete</a></td>
+  </tr>
+    {% endfor %}
+
+</table>
+<a href="{% url 'create-music' %}">Create Music</a>
+{% endblock %}
