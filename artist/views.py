@@ -1,12 +1,15 @@
+import csv
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .decorators import unauthenticated_user
-from .forms import CreateUserArtistForm, ArtistForm, MusicForm
-from .models import UserArtist, Artist, Music
+from .forms import ArtistForm, CreateUserArtistForm, MusicForm
+from .models import Artist, Music, UserArtist
 
 
 # Create your views here.
@@ -65,11 +68,41 @@ def dashboard(request):
 def all_artists(request):
     artists = Artist.objects.all()
     total_albums = Music.objects.values('album').annotate(total=Count('album')).count()  # Count Total Albums
+
+    # Import data from CSV to database
+    for row in csv.DictReader(open('artist.csv')):
+        artist = artists(name=row['Name'], date_of_birth=row['Date Of Birth'], gender=row['Gender'],
+                         address=row['Address'], first_release_year=row['First Release Year'],
+                         no_of_albums_released=row['No of Albums Released']
+                         )
+        artist.save()
+
     context = {
         'artists': artists,
         'total_albums': total_albums
     }
     return render(request, 'artists.html', context)
+
+
+def export_data_to_csv(request):
+    """Export data to database"""
+    artists = Artist.objects.all()
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="export_artist_data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Name', 'Date Of Birth', 'Gender', 'Address', 'First Release Year', 'No of Albums Released'])
+    artist_data = list(artists)
+    data = [
+        [artist_data[0].name, artist_data[0].date_of_birth, artist_data[0].gender.value, artist_data[0].address,
+         artist_data[0].first_release_year, artist_data[0].no_of_albums_released],
+
+    ]
+
+    for row in data:
+        writer.writerow(row)
+
+    return response
 
 
 @login_required(login_url='login')

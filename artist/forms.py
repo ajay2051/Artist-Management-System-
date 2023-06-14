@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 
 from .enums import GenderChoice
-from .models import UserArtist, Artist, Music
+from .models import Artist, Music, UserArtist
 
 
 class CreateUserArtistForm(UserCreationForm):
