@@ -16,6 +16,7 @@ urlpatterns = [
 
 
     path('music/', views.all_music, name='music'),
+    path('artist-music/<int:pk>/', views.artist_music, name='artist-music'),
     path('create-music/', views.create_music, name='create-music'),
     path('update-music/<int:pk>/', views.update_music, name='update-music'),
     path('delete-music/<int:pk>/', views.delete_music, name='delete-music')

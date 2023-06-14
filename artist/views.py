@@ -123,6 +123,18 @@ def all_music(request):
 
 
 @login_required(login_url='login')
+def artist_music(request, pk):
+    """Music According To Particular Artist"""
+    artist = Artist.objects.get(id=pk)
+    musics = Music.objects.filter(artist_id=artist)
+    context = {
+        'artist': artist,
+        'musics': musics
+    }
+    return render(request, 'artist_music.html', context=context)
+
+
+@login_required(login_url='login')
 def create_music(request):
     form = MusicForm()
     if request.method == 'POST':

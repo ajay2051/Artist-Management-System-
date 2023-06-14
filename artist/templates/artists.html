@@ -13,7 +13,7 @@
   </tr>
     {% for artist in artists %}
   <tr>
-    <td>{{artist.name}}</td>
+    <td><a href="{% url 'artist-music' artist.id%}">{{artist.name}}</a></td>
     <td>{{artist.date_of_birth}}</td>
     <td>{{artist.gender.value}}</td>
     <td>{{artist.phone_number}}</td>
@@ -27,5 +27,6 @@
 
 </table>
 <a href="{% url 'create-artist' %}">Create Artists</a>
+<a href="{% url 'music' %}">Musics</a>
 
 {% endblock %}
