@@ -5,7 +5,6 @@ from enumfields import EnumField
 
 from .enums import GenderChoice, Genre
 
-
 # Create your models here.
 
 class UserArtist(AbstractUser):

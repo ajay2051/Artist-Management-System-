@@ -7,7 +7,7 @@ from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .decorators import unauthenticated_user
+from .decorators import admin_only, allowed_users, unauthenticated_user
 from .forms import ArtistForm, CreateUserArtistForm, MusicForm
 from .models import Artist, Music, UserArtist
 
@@ -65,6 +65,7 @@ def dashboard(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['user'])
 def all_artists(request):
     artists = Artist.objects.all()
     total_albums = Music.objects.values('album').annotate(total=Count('album')).count()  # Count Total Albums
@@ -84,6 +85,8 @@ def all_artists(request):
     return render(request, 'artists.html', context)
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['user'])
 def export_data_to_csv(request):
     """Export data to database"""
     artists = Artist.objects.all()
@@ -106,6 +109,7 @@ def export_data_to_csv(request):
 
 
 @login_required(login_url='login')
+@admin_only
 def create_artist(request):
     form = ArtistForm()
     if request.method == "POST":
@@ -120,6 +124,7 @@ def create_artist(request):
 
 
 @login_required(login_url='login')
+@admin_only
 def update_artist(request, pk):
     artist = Artist.objects.get(id=pk)
     form = ArtistForm(instance=artist)
@@ -135,6 +140,7 @@ def update_artist(request, pk):
 
 
 @login_required(login_url='login')
+@admin_only
 def delete_artist(request, pk):
     artist = Artist.objects.get(id=pk)
     if request.method == 'POST':
@@ -147,6 +153,7 @@ def delete_artist(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['user'])
 def all_music(request):
     musics = Music.objects.all()
     context = {
@@ -156,6 +163,7 @@ def all_music(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['user'])
 def artist_music(request, pk):
     """Music According To Particular Artist"""
     artist = Artist.objects.get(id=pk)
@@ -168,6 +176,7 @@ def artist_music(request, pk):
 
 
 @login_required(login_url='login')
+@admin_only
 def create_music(request):
     form = MusicForm()
     if request.method == 'POST':
@@ -182,6 +191,7 @@ def create_music(request):
 
 
 @login_required(login_url='login')
+@admin_only
 def update_music(request, pk):
     music = Music.objects.get(id=pk)
     form = MusicForm(instance=music)
@@ -197,6 +207,7 @@ def update_music(request, pk):
 
 
 @login_required(login_url='login')
+@admin_only
 def delete_music(request, pk):
     music = Music.objects.get(id=pk)
     if request.method == 'POST':
